@@ -12,17 +12,11 @@ def select_best_model(user_input, models_dict):
     for model, description in models_dict.items():
         prompt += f"\n- {model}: {description}"
     # print('prompt:', prompt)
-    
+
     # Send the prompt to the LLM
     llm_response = llm(prompt)
 
-    # print("llm_response: ", llm_response)
-
-    # Parse the response to find the best model
-    # This part depends on how your LLM formats its response. You might need to adjust the parsing logic.
-    best_model = parse_llm_response(llm_response, models_dict=models_dict)
-
-    return best_model
+    return parse_llm_response(llm_response, models_dict=models_dict)
 
 
 
@@ -37,10 +31,7 @@ def parse_llm_response(response, models_dict):
     best_model = max(model_occurrences, key=model_occurrences.get)
 
     # If no model is mentioned or there is a tie, you might need additional logic to handle these cases
-    if model_occurrences[best_model] == 0:
-        return "neural-chat"  # Or some default model
-
-    return best_model
+    return "neural-chat" if model_occurrences[best_model] == 0 else best_model
 
 
 models_dict = {
